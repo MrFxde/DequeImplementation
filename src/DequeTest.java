@@ -94,9 +94,8 @@ public class DequeTest {
 			else
 				System.out.println("Empty Queue! Delete failed! UNDERFLOW!");
 		}
-
-
-
+		display(q);
+		checkFrontBack(q);
 
 	}
 

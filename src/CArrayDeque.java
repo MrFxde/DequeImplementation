@@ -31,17 +31,21 @@ public class CArrayDeque<T> {
 	 * @return True if the addition is successful, or false if not.
 	 */
 	public boolean addFront(T newEntry) {
-		front--;
-		if (front == -1) {
-			front = CAPACITY - 1;
-			items[front] = newEntry;
-			size++;
-			return true;
-		} else {
-			items[front] = newEntry;
-			size++;
-			return true;
+		if (size < CAPACITY) {
+			front--;
+			if (front == -1) {
+				front = CAPACITY - 1;
+				items[front] = newEntry;
+				size++;
+				return true;
+			} else {
+				items[front] = newEntry;
+				size++;
+				return true;
+			}
 		}
+		//returns false if there isn't room
+		return false;
 	}
 
 	/**
@@ -51,22 +55,27 @@ public class CArrayDeque<T> {
 	 * @return True if the addition is successful, or false if not.
 	 */
 	public boolean addBack(T newEntry) {
-		back++;
-		if (back == CAPACITY) {
-			back = 0;
-			items[0] = newEntry;
-			size++;
-			return true;
-		} else if (back == front) {
-			back--;
-			return false;
+		if(size < CAPACITY) {
+			back++;
+			if (back == CAPACITY) {
+				back = 0;
+				items[0] = newEntry;
+				size++;
+				return true;
+			}
+			//not neccessary
+//			else if (back == front) {
+//				back--;
+//				return false;
 
-		} else {
-			items[back] = newEntry;
-			size++;
-			return true;
+			else {
+				items[back] = newEntry;
+				size++;
+				return true;
+			}
 		}
-	}
+		return false;
+		}
 
 	/**
 	 * Removes the entry at front from the queue, if possible.
@@ -74,11 +83,10 @@ public class CArrayDeque<T> {
 	 * @return True if the removal was successful, or false if not.
 	 */
 	public boolean removeFront() {
-		front++;
-
-		if (size == 0) {
+		if (size == 0)
 			return false;
-		} else if (front == CAPACITY) {
+		front++;
+		if (front == CAPACITY) {
 			items[CAPACITY - 1] = null;
 			front = 0;
 			size--;
@@ -96,15 +104,17 @@ public class CArrayDeque<T> {
 	 * @return True if the removal was successful, or false if not.
 	 */
 	public boolean removeBack() {
-		back--;
-		if (size == 0) {
+		if (size == 0)
 			return false;
-		} else if (back == 0) {
+
+		if (back == 0) {
 			items[0] = null;
 			back = CAPACITY - 1;
+			size--;
 			return true;
 		} else {
-			items[back + 1] = null;
+			items[back] = null;
+			back--;
 			size--;
 			return true;
 		}
@@ -120,7 +130,7 @@ public class CArrayDeque<T> {
 	}
 
 	/**
-	 * Retrieve the entry at back in the queue, if possible.
+	 * Retrieve the entry at back in the queue, if possible
 	 *
 	 * @return the front entry if the retrieve was successful, or null if not.
 	 */
